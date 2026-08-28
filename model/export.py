@@ -15,7 +15,10 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = ROOT.parent / "app" / "src" / "main" / "assets"
+
+# Unity imports the ONNX as a ModelAsset from anywhere under Assets/. Keeping it
+# beside the scripts that use it means SceneBuilder can find it by name.
+UNITY_MODELS = ROOT.parent / "unity" / "QuestObjectMemory" / "Assets" / "QuestObjectMemory" / "Models"
 
 
 def main() -> None:
@@ -26,7 +29,11 @@ def main() -> None:
                     help="Square input size baked into the ONNX graph")
     ap.add_argument("--opset", type=int, default=17)
     ap.add_argument("--prompts", type=Path, default=ROOT / "prompts.txt")
+    ap.add_argument("--out", type=Path, default=UNITY_MODELS,
+                    help="Directory to install detector.onnx and labels.json into")
     args = ap.parse_args()
+
+    assets = args.out
 
     prompts = [p.strip() for p in args.prompts.read_text().splitlines() if p.strip()]
     if not prompts:
@@ -42,15 +49,15 @@ def main() -> None:
     out = Path(out)
     print(f"exported {out} ({out.stat().st_size / 1e6:.1f} MB)")
 
-    ASSETS.mkdir(parents=True, exist_ok=True)
-    shutil.copy(out, ASSETS / "detector.onnx")
-    (ASSETS / "labels.json").write_text(json.dumps({
+    assets.mkdir(parents=True, exist_ok=True)
+    shutil.copy(out, assets / "detector.onnx")
+    (assets / "labels.json").write_text(json.dumps({
         "imgsz": args.imgsz,
         "classes": prompts,
         "weights": args.weights,
     }, indent=2))
-    print(f"installed -> {ASSETS / 'detector.onnx'}")
-    print(f"installed -> {ASSETS / 'labels.json'}")
+    print(f"installed -> {assets / 'detector.onnx'}")
+    print(f"installed -> {assets / 'labels.json'}")
 
 
 if __name__ == "__main__":

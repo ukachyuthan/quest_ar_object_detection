@@ -10,7 +10,7 @@ import onnxruntime as ort
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = ROOT.parent / "app" / "src" / "main" / "assets"
+ASSETS = ROOT.parent / "unity" / "QuestObjectMemory" / "Assets" / "QuestObjectMemory" / "Models"
 
 CONF = float(__import__("os").environ.get("CONF", 0.25))
 IOU_PER_CLASS = 0.45
