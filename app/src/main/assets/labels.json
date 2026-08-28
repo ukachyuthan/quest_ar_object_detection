@@ -1,0 +1,11 @@
+{
+  "imgsz": 448,
+  "classes": [
+    "speaker",
+    "subwoofer",
+    "tv",
+    "computer monitor",
+    "pc case"
+  ],
+  "weights": "yolov8s-worldv2.pt"
+}

@@ -1,0 +1,22 @@
+# Android / Gradle
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+.idea/
+captures/
+
+# Model export
+model/.venv/
+model/*.pt
+model/*.onnx
+model/runs/
+
+# Exported model lands in assets and is large; regenerate with model/export.py
+app/src/main/assets/detector.onnx
+
+.DS_Store
+model/weights/
+build/
+weights/

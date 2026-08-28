@@ -1,0 +1,5 @@
+speaker
+subwoofer
+tv
+computer monitor
+pc case
